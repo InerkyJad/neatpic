@@ -1,12 +1,6 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
-*/
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
@@ -14,27 +8,26 @@ import (
 var reduceCmd = &cobra.Command{
 	Use:   "reduce",
 	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("reduce called")
+		imagePathExists(args)
+		var path string = args[0]
+		var percentage string = cmd.Flag("percentage").Value.String()
+		var recursive bool = cmd.Flag("recursive").Value.String() == "true"
+
+		if path == "*" {
+			var images []string = getImages(path, recursive)
+			for _, image := range images {
+				reduce(image, percentage)
+			}
+		} else {
+			reduce(path, percentage)
+		}
+
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(reduceCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// reduceCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// reduceCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	reduceCmd.Flags().StringP("percentage", "p", "25", "Percentage of the image to reduce")
 }

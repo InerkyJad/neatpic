@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"github.com/disintegration/imaging"
 	"github.com/spf13/cobra"
+	"image"
 	"image/color"
 	"os"
+	"path/filepath"
 )
 
 // Remove from Slice by value
@@ -17,6 +19,36 @@ func remove(slice []string, s string) []string {
 		}
 	}
 	return slice
+}
+
+// get an image, it will check if the image exists ...
+func getImage(path string) image.Image {
+	// Check if the path is a directory
+	fi, err := os.Stat(path)
+	if err != nil {
+		fmt.Println("Error:", err)
+		os.Exit(1)
+	}
+	if fi.IsDir() {
+		fmt.Println("Error:", path, "is a directory")
+		os.Exit(1)
+	}
+
+	// Check if the path is an image file
+	ext := filepath.Ext(path)
+	if ext != ".jpg" && ext != ".jpeg" && ext != ".png" {
+		fmt.Println("Error:", path, "is not an image file")
+		os.Exit(1)
+	}
+
+	// Open the image file
+	img, err := imaging.Open(path)
+	if err != nil {
+		fmt.Println("Error:", err)
+		os.Exit(1)
+	}
+
+	return img
 }
 
 // Get the list of images in a directory
@@ -51,31 +83,46 @@ func getImages(path string, recursive bool) []string {
 	return images
 }
 
-func imagePathExists(args []string) bool {
-	if len(args) > 1 {
-		println("You can only rotate one image at a time or pass * to rotate all images in the directory")
-		os.Exit(1)
-	} else if len(args) == 0 {
-		println("You must provide an image")
-		os.Exit(1)
-	}
-	return true
-}
-
 func rotateImage(image string, angle int) {
-	img, err := imaging.Open(image)
-	if err != nil {
-		fmt.Println("Error while opening the image")
-		os.Exit(1)
-	}
-
+	img := getImage(image)
 	img = imaging.Rotate(img, float64(angle), color.Black)
-
-	err = imaging.Save(img, image)
+	err := imaging.Save(img, image)
 	if err != nil {
 		fmt.Println("Error while saving the image")
 		os.Exit(1)
 	}
+}
+
+// get the working directory
+func getDir() string {
+	path, err := os.Getwd()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	return path
+}
+
+// check if the path was passed and is valid
+func imagePathExists(args []string) string {
+	if len(args) == 0 {
+		fmt.Println("Error: No image path was passed")
+		os.Exit(1)
+	}
+
+	if len(args) > 1 {
+		fmt.Println("Error: The image path is not valid")
+		os.Exit(1)
+	}
+
+	err, _ := os.Stat(args[0])
+	if err != nil {
+		fmt.Println("Error: The image path is not valid")
+		os.Exit(1)
+	}
+
+	return args[0]
 }
 
 var rotateCmd = &cobra.Command{
@@ -85,18 +132,13 @@ var rotateCmd = &cobra.Command{
 	Args:       cobra.MinimumNArgs(1),
 	ArgAliases: []string{"image"},
 	Run: func(cmd *cobra.Command, args []string) {
-		imagePathExists(args)
-		var path string = args[0]
+		var path string = imagePathExists(args)
 
 		/*
 		*	Rotate All Images in a directory or subdirectories
 		* */
 		if path == "*" {
-			path, err := os.Getwd()
-			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
-			}
+			path = getDir()
 			var images []string = getImages(path, false)
 
 			/*
@@ -117,16 +159,6 @@ var rotateCmd = &cobra.Command{
 		*	Rotate a single image
 		* */
 		{
-			if _, err := os.Stat(path); os.IsNotExist(err) {
-				fmt.Println("Image doesn't exist")
-				os.Exit(1)
-			}
-
-			if path[len(path)-3:] != "jpg" && path[len(path)-3:] != "png" && path[len(path)-4:] != "jpeg" {
-				fmt.Println("Image is not a jpg, png or jpeg")
-				os.Exit(1)
-			}
-
 			if cmd.Flag("angle").Value.String() == "90" {
 				rotateImage(path, 90)
 			} else if cmd.Flag("angle").Value.String() == "180" {
@@ -134,7 +166,6 @@ var rotateCmd = &cobra.Command{
 			} else {
 				rotateImage(path, 90)
 			}
-
 		}
 	},
 }

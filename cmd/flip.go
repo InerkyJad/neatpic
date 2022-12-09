@@ -9,13 +9,8 @@ import (
 
 func flip(image string, horizontal bool, vertical bool) {
 	if vertical {
-		img, err := imaging.Open(image)
-		if err != nil {
-			fmt.Println("Error while opening the image")
-			os.Exit(1)
-		}
-		img = imaging.FlipV(img)
-		err = imaging.Save(img, image)
+		img := imaging.FlipV(getImage(image))
+		err := imaging.Save(img, image)
 		if err != nil {
 			fmt.Println("Error while saving the image")
 			os.Exit(1)
@@ -23,13 +18,8 @@ func flip(image string, horizontal bool, vertical bool) {
 	}
 
 	if horizontal {
-		img, err := imaging.Open(image)
-		if err != nil {
-			fmt.Println("Error while opening the image")
-			os.Exit(1)
-		}
-		img = imaging.FlipH(img)
-		err = imaging.Save(img, image)
+		img := imaging.FlipH(getImage(image))
+		err := imaging.Save(img, image)
 		if err != nil {
 			fmt.Println("Error while saving the image")
 			os.Exit(1)
@@ -45,8 +35,7 @@ var flipCmd = &cobra.Command{
 	Args:       cobra.MinimumNArgs(1),
 	ArgAliases: []string{"image"},
 	Run: func(cmd *cobra.Command, args []string) {
-		imagePathExists(args)
-		var path string = args[0]
+		var path string = imagePathExists(args)
 
 		if path == "*" {
 			var images []string = getImages(path, false)
@@ -61,11 +50,6 @@ var flipCmd = &cobra.Command{
 				}
 			}
 		} else {
-			if _, err := os.Stat(path); os.IsNotExist(err) {
-				fmt.Println("No Image found at path: " + path)
-				os.Exit(1)
-			}
-
 			horizontal, err := cmd.Flags().GetBool("horizontal")
 			if err != nil {
 				fmt.Println(err)
