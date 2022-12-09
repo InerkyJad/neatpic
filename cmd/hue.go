@@ -17,4 +17,5 @@ var hueCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(hueCmd)
+
 }
