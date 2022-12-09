@@ -8,7 +8,7 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "neatpic [command] [flags] [image]",
+	Use:   "neatpic [command] image [flags]",
 	Short: "NeatPic is a CLI tool to manipulate images",
 	Long: `
 	/$$   /$$                       /$$     /$$$$$$$  /$$          
@@ -32,5 +32,5 @@ func Execute() {
 }
 
 func init() {
-
+	rotateCmd.PersistentFlags().BoolP("recursive", "r", false, "Rotate all images in the child directories (optional)")
 }

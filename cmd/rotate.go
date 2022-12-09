@@ -138,5 +138,4 @@ var rotateCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(rotateCmd)
 	rotateCmd.Flags().IntP("angle", "a", 90, "Angle of the rotation, 90, 180 (optional)")
-	rotateCmd.Flags().BoolP("recursive", "r", false, "Rotate all images in the child directories (optional)")
 }

@@ -1,10 +1,41 @@
-// Package cmd /*
 package cmd
 
 import (
 	"fmt"
+	"github.com/disintegration/imaging"
 	"github.com/spf13/cobra"
+	"os"
 )
+
+func flip(image string, horizontal bool, vertical bool) {
+	if vertical {
+		img, err := imaging.Open(image)
+		if err != nil {
+			fmt.Println("Error while opening the image")
+			os.Exit(1)
+		}
+		img = imaging.FlipV(img)
+		err = imaging.Save(img, image)
+		if err != nil {
+			fmt.Println("Error while saving the image")
+			os.Exit(1)
+		}
+	}
+
+	if horizontal {
+		img, err := imaging.Open(image)
+		if err != nil {
+			fmt.Println("Error while opening the image")
+			os.Exit(1)
+		}
+		img = imaging.FlipH(img)
+		err = imaging.Save(img, image)
+		if err != nil {
+			fmt.Println("Error while saving the image")
+			os.Exit(1)
+		}
+	}
+}
 
 // flipCmd represents the flip command
 var flipCmd = &cobra.Command{
@@ -14,31 +45,52 @@ var flipCmd = &cobra.Command{
 	Args:       cobra.MinimumNArgs(1),
 	ArgAliases: []string{"image"},
 	Run: func(cmd *cobra.Command, args []string) {
-		//var path string = cmd.Flag("image").Value.String()
-		fmt.Println(args)
-
-		// print the last flag value
-
-		/*var path string = cmd.Flag("image").Value.String()
-
-		if _, err := os.Stat(path); os.IsNotExist(err) {
-			fmt.Println("The image path does not exist")
+		if len(args) > 1 {
+			println("You can only flip one image at a time or pass * to flip all images in the directory")
+			os.Exit(1)
+		} else if len(args) == 0 {
+			println("You must provide an image")
 			os.Exit(1)
 		}
 
-		horizontal, err := cmd.Flags().GetBool("horizontal")
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
+		var path string = args[0]
 
-		vertical, err := cmd.Flags().GetBool("vertical")
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
+		if path == "*" {
+			var images []string = getImages(path, false)
 
-		fmt.Println(horizontal, vertical)*/
+			for _, image := range images {
+				fmt.Println(image)
+			}
+		} else {
+			if _, err := os.Stat(path); os.IsNotExist(err) {
+				fmt.Println("No Image found at path: " + path)
+				os.Exit(1)
+			}
+
+			horizontal, err := cmd.Flags().GetBool("horizontal")
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+
+			vertical, err := cmd.Flags().GetBool("vertical")
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+
+			if horizontal {
+				flip(path, true, false)
+			}
+
+			if vertical {
+				flip(path, false, true)
+			}
+
+			if !horizontal && !vertical {
+				flip(path, true, false)
+			}
+		}
 	},
 }
 
