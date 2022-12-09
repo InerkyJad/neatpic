@@ -11,16 +11,6 @@ import (
 	"path/filepath"
 )
 
-// Remove from Slice by value
-func remove(slice []string, s string) []string {
-	for i, v := range slice {
-		if v == s {
-			return append(slice[:i], slice[i+1:]...)
-		}
-	}
-	return slice
-}
-
 // get an image, it will check if the image exists ...
 func getImage(path string) image.Image {
 	// Check if the path is a directory
@@ -51,38 +41,6 @@ func getImage(path string) image.Image {
 	return img
 }
 
-// Get the list of images in a directory
-func getImages(path string, recursive bool) []string {
-	f, err := os.Open(path)
-	if err != nil {
-		fmt.Println("Error while opening the directory")
-		os.Exit(1)
-	}
-	files, err := f.Readdir(0)
-	if err != nil {
-		fmt.Println("Error while reading the directory")
-		os.Exit(1)
-	}
-	var images []string
-	for _, file := range files {
-		if file.IsDir() {
-			if recursive {
-				images = append(images, getImages(path+file.Name(), recursive)...)
-			}
-		} else {
-			images = append(images, path+file.Name())
-		}
-	}
-
-	for _, image := range images {
-		if image[len(image)-3:] != "jpg" && image[len(image)-3:] != "png" && image[len(image)-4:] != "jpeg" {
-			images = remove(images, image)
-		}
-	}
-
-	return images
-}
-
 // rotate the image and save it
 func rotateImage(image string, angle int) {
 	img := getImage(image)
@@ -92,17 +50,6 @@ func rotateImage(image string, angle int) {
 		fmt.Println("Error while saving the image")
 		os.Exit(1)
 	}
-}
-
-// get the working directory
-func getDir() string {
-	path, err := os.Getwd()
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
-	return path
 }
 
 // check if the path was passed and is valid
@@ -115,10 +62,6 @@ func imagePathExists(args []string) string {
 	if len(args) > 1 {
 		fmt.Println("Error: The image path is not valid")
 		os.Exit(1)
-	}
-
-	if args[0] == "*" {
-		return getDir()
 	}
 
 	path := args[0]
@@ -138,30 +81,16 @@ var rotateCmd = &cobra.Command{
 	ArgAliases: []string{"image"},
 	Run: func(cmd *cobra.Command, args []string) {
 		var path string = imagePathExists(args)
+		saveImage(path)
 
-		if path == "*" {
-			path = getDir()
-			var images []string = getImages(path, false)
-
-			for _, image := range images {
-				if cmd.Flag("angle").Value.String() == "90" {
-					rotateImage(image, 90)
-				} else if cmd.Flag("angle").Value.String() == "180" {
-					rotateImage(image, 180)
-				} else {
-					rotateImage(image, 90)
-				}
-			}
-
+		if cmd.Flag("angle").Value.String() == "90" {
+			rotateImage(path, 90)
+		} else if cmd.Flag("angle").Value.String() == "180" {
+			rotateImage(path, 180)
 		} else {
-			if cmd.Flag("angle").Value.String() == "90" {
-				rotateImage(path, 90)
-			} else if cmd.Flag("angle").Value.String() == "180" {
-				rotateImage(path, 180)
-			} else {
-				rotateImage(path, 90)
-			}
+			rotateImage(path, 90)
 		}
+
 	},
 }
 

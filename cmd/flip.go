@@ -36,44 +36,30 @@ var flipCmd = &cobra.Command{
 	ArgAliases: []string{"image"},
 	Run: func(cmd *cobra.Command, args []string) {
 		var path string = imagePathExists(args)
+		saveImage(path)
 
-		if path == "*" {
-			var images []string = getImages(path, false)
+		horizontal, err := cmd.Flags().GetBool("horizontal")
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 
-			for _, image := range images {
-				if cmd.Flag("horizontal").Value.String() == "true" {
-					flip(image, true, false)
-				} else if cmd.Flag("vertical").Value.String() == "true" {
-					flip(image, false, true)
-				} else {
-					flip(image, true, false)
-				}
-			}
-		} else {
-			horizontal, err := cmd.Flags().GetBool("horizontal")
-			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
-			}
+		vertical, err := cmd.Flags().GetBool("vertical")
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 
-			vertical, err := cmd.Flags().GetBool("vertical")
-			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
-			}
+		if horizontal {
+			flip(path, true, false)
+		}
 
-			if horizontal {
-				flip(path, true, false)
-			}
+		if vertical {
+			flip(path, false, true)
+		}
 
-			if vertical {
-				flip(path, false, true)
-			}
-
-			if !horizontal && !vertical {
-				flip(path, true, false)
-			}
-
+		if !horizontal && !vertical {
+			flip(path, true, false)
 		}
 	},
 }

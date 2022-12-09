@@ -37,32 +37,17 @@ var reduceCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 
 		var path string = imagePathExists(args)
+		saveImage(path)
 		var percentage string = cmd.Flag("percentage").Value.String()
-		recursive, err := cmd.Flags().GetBool("recursive")
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
 
 		if percentage == "" {
 			percentage = "75"
 		}
 
-		if path == "*" {
-			var images []string = getImages(path, recursive)
-			for _, image := range images {
-				err := compress(image, percentage)
-				if err != nil {
-					fmt.Println("Error while compressing the image")
-					os.Exit(1)
-				}
-			}
-		} else {
-			err := compress(path, percentage)
-			if err != nil {
-				fmt.Println("Error while compressing the image")
-				os.Exit(1)
-			}
+		err := compress(path, percentage)
+		if err != nil {
+			fmt.Println("Error while compressing the image")
+			os.Exit(1)
 		}
 	},
 }
