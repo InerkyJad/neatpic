@@ -40,7 +40,7 @@ func flip(image string, horizontal bool, vertical bool) {
 // flipCmd represents the flip command
 var flipCmd = &cobra.Command{
 	Use:        "flip image [flags]",
-	Short:      "Flip an image",
+	Short:      "Flip an image horizontally or vertically, if no flag is provided, the image is flipped horizontally",
 	Long:       `Flip an image`,
 	Args:       cobra.MinimumNArgs(1),
 	ArgAliases: []string{"image"},
@@ -59,7 +59,13 @@ var flipCmd = &cobra.Command{
 			var images []string = getImages(path, false)
 
 			for _, image := range images {
-				fmt.Println(image)
+				if cmd.Flag("horizontal").Value.String() == "true" {
+					flip(image, true, false)
+				} else if cmd.Flag("vertical").Value.String() == "true" {
+					flip(image, false, true)
+				} else {
+					flip(image, true, false)
+				}
 			}
 		} else {
 			if _, err := os.Stat(path); os.IsNotExist(err) {
@@ -90,6 +96,7 @@ var flipCmd = &cobra.Command{
 			if !horizontal && !vertical {
 				flip(path, true, false)
 			}
+
 		}
 	},
 }
