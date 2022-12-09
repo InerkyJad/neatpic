@@ -2,14 +2,13 @@
 package cmd
 
 import (
-	"os"
-
 	"github.com/spf13/cobra"
+	"os"
 )
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "neatpic",
+	Use:   "neatpic [command] [flags] [image]",
 	Short: "NeatPic is a CLI tool to manipulate images",
 	Long: `
 	/$$   /$$                       /$$     /$$$$$$$  /$$          

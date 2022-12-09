@@ -52,17 +52,14 @@ func getImages(path string, recursive bool) []string {
 }
 
 func rotateImage(image string, angle int) {
-	// read the image
 	img, err := imaging.Open(image)
 	if err != nil {
 		fmt.Println("Error while opening the image")
 		os.Exit(1)
 	}
 
-	// rotate the image
 	img = imaging.Rotate(img, float64(angle), color.Black)
 
-	// save the image
 	err = imaging.Save(img, image)
 	if err != nil {
 		fmt.Println("Error while saving the image")
@@ -71,11 +68,21 @@ func rotateImage(image string, angle int) {
 }
 
 var rotateCmd = &cobra.Command{
-	Use:   "rotate",
-	Short: "Rotate an image, pass a deg e.g 90, 180 or don't and it will get rotated 90 degrees",
-	Long:  ``,
+	Use:        "rotate image [flags]",
+	Short:      "Rotate an image, pass a deg e.g 90, 180 or don't and it will get rotated 90 degrees",
+	Long:       ``,
+	Args:       cobra.MinimumNArgs(1),
+	ArgAliases: []string{"image"},
 	Run: func(cmd *cobra.Command, args []string) {
-		var path string = cmd.Flag("image").Value.String()
+		if len(args) > 1 {
+			fmt.Println("You can only rotate one image at a time or pass * to rotate all images in the directory")
+			os.Exit(1)
+		} else if len(args) == 0 {
+			fmt.Println("You must provide an image")
+			os.Exit(1)
+		}
+
+		var path string = args[0]
 
 		/*
 		*	Rotate All Images in a directory or subdirectories
@@ -132,9 +139,4 @@ func init() {
 	rootCmd.AddCommand(rotateCmd)
 	rotateCmd.Flags().IntP("angle", "a", 90, "Angle of the rotation, 90, 180 (optional)")
 	rotateCmd.Flags().BoolP("recursive", "r", false, "Rotate all images in the child directories (optional)")
-	rotateCmd.Flags().StringP("image", "i", "", "Image path (required)")
-	err := rotateCmd.MarkFlagRequired("image")
-	if err != nil {
-		fmt.Println(err)
-	}
 }
