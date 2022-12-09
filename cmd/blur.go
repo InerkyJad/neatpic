@@ -25,7 +25,7 @@ var blurCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		var path string = imagePathExists(args)
 		saveImage(path)
-		degree, err := cmd.Flags().GetFloat64("degree")
+		degree, err := cmd.Flags().GetFloat64("value")
 		if err != nil {
 			fmt.Println("Error getting degree flag")
 			os.Exit(1)
@@ -41,5 +41,5 @@ var blurCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(blurCmd)
-	blurCmd.Flags().Float64P("degree", "d", 1, "The degree of blur")
+	blurCmd.Flags().Float64P("value", "v", 1, "The value of blur")
 }
