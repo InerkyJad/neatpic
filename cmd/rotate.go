@@ -51,6 +51,17 @@ func getImages(path string, recursive bool) []string {
 	return images
 }
 
+func imagePathExists(args []string) bool {
+	if len(args) > 1 {
+		println("You can only rotate one image at a time or pass * to rotate all images in the directory")
+		os.Exit(1)
+	} else if len(args) == 0 {
+		println("You must provide an image")
+		os.Exit(1)
+	}
+	return true
+}
+
 func rotateImage(image string, angle int) {
 	img, err := imaging.Open(image)
 	if err != nil {
@@ -74,14 +85,7 @@ var rotateCmd = &cobra.Command{
 	Args:       cobra.MinimumNArgs(1),
 	ArgAliases: []string{"image"},
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) > 1 {
-			fmt.Println("You can only rotate one image at a time or pass * to rotate all images in the directory")
-			os.Exit(1)
-		} else if len(args) == 0 {
-			fmt.Println("You must provide an image")
-			os.Exit(1)
-		}
-
+		imagePathExists(args)
 		var path string = args[0]
 
 		/*

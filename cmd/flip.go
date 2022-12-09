@@ -45,14 +45,7 @@ var flipCmd = &cobra.Command{
 	Args:       cobra.MinimumNArgs(1),
 	ArgAliases: []string{"image"},
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) > 1 {
-			println("You can only flip one image at a time or pass * to flip all images in the directory")
-			os.Exit(1)
-		} else if len(args) == 0 {
-			println("You must provide an image")
-			os.Exit(1)
-		}
-
+		imagePathExists(args)
 		var path string = args[0]
 
 		if path == "*" {
