@@ -83,6 +83,7 @@ func getImages(path string, recursive bool) []string {
 	return images
 }
 
+// rotate the image and save it
 func rotateImage(image string, angle int) {
 	img := getImage(image)
 	img = imaging.Rotate(img, float64(angle), color.Black)
@@ -116,8 +117,12 @@ func imagePathExists(args []string) string {
 		os.Exit(1)
 	}
 
-	err, _ := os.Stat(args[0])
-	if err != nil {
+	if args[0] == "*" {
+		return getDir()
+	}
+
+	path := args[0]
+	if _, err := os.Stat(path); os.IsNotExist(err) {
 		fmt.Println("Error: The image path is not valid")
 		os.Exit(1)
 	}
@@ -134,16 +139,10 @@ var rotateCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		var path string = imagePathExists(args)
 
-		/*
-		*	Rotate All Images in a directory or subdirectories
-		* */
 		if path == "*" {
 			path = getDir()
 			var images []string = getImages(path, false)
 
-			/*
-			* Rotate all the images
-			 */
 			for _, image := range images {
 				if cmd.Flag("angle").Value.String() == "90" {
 					rotateImage(image, 90)
@@ -154,11 +153,7 @@ var rotateCmd = &cobra.Command{
 				}
 			}
 
-		} else
-		/*
-		*	Rotate a single image
-		* */
-		{
+		} else {
 			if cmd.Flag("angle").Value.String() == "90" {
 				rotateImage(path, 90)
 			} else if cmd.Flag("angle").Value.String() == "180" {
