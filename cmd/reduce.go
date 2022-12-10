@@ -39,7 +39,7 @@ var reduceCmd = &cobra.Command{
 
 		var path string = imagePathExists(args)
 		saveImage(path)
-		var percentage string = cmd.Flag("percentage").Value.String()
+		var percentage string = cmd.Flag("value").Value.String()
 
 		if percentage == "" {
 			percentage = "75"
@@ -55,5 +55,5 @@ var reduceCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(reduceCmd)
-	reduceCmd.Flags().StringP("percentage", "p", "25", "Percentage of compression")
+	reduceCmd.Flags().StringP("value", "v", "25", "Percentage of compression")
 }
