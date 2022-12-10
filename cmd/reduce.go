@@ -32,9 +32,9 @@ func compress(path string, percentage string) error {
 
 // reduceCmd represents the reduce command
 var reduceCmd = &cobra.Command{
-	Use:   "reduce",
-	Short: "A brief description of your command",
-	Long:  ``,
+	Use:   "reduce image [flags]",
+	Short: "Reduce the image size",
+	Long:  `Reduce the image size`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		var path string = imagePathExists(args)
@@ -55,5 +55,5 @@ var reduceCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(reduceCmd)
-	reduceCmd.Flags().StringP("percentage", "p", "25", "Percentage of the image to reduce")
+	reduceCmd.Flags().StringP("percentage", "p", "25", "Percentage of compression")
 }

@@ -19,9 +19,9 @@ func resize(path string, width float64, height float64) {
 
 // resizeCmd represents the resize command
 var resizeCmd = &cobra.Command{
-	Use:   "resize",
-	Short: "A brief description of your command",
-	Long:  ``,
+	Use:   "resize image [flags]",
+	Short: "Resize the image",
+	Long:  `Resize the image with the given width (-W) and height (-H)`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var path string = imagePathExists(args)
 		saveImage(path)
@@ -46,6 +46,6 @@ var resizeCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(resizeCmd)
-	resizeCmd.Flags().Float64P("height", "H", 0, "desired height")
-	resizeCmd.Flags().Float64P("width", "W", 0, "desired width")
+	resizeCmd.Flags().Float64P("height", "H", 0, "height of the image")
+	resizeCmd.Flags().Float64P("width", "W", 0, "width of the image")
 }

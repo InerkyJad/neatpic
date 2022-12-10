@@ -20,9 +20,9 @@ func sharpen(path string, value float64) {
 
 // sharpenCmd represents the sharpen command
 var sharpenCmd = &cobra.Command{
-	Use:   "sharpen",
-	Short: "A brief description of your command",
-	Long:  ``,
+	Use:   "sharpen image [flags]",
+	Short: "Sharpen the image",
+	Long:  `Sharpen the image with the given value (-v) from 0 to 10 and 0 returns the image as it is`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var path string = imagePathExists(args)
 		saveImage(path)
@@ -42,5 +42,5 @@ var sharpenCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(sharpenCmd)
-	sharpenCmd.Flags().Float64P("value", "v", 1, "The sharpen value (default is 1)")
+	sharpenCmd.Flags().Float64P("value", "v", 1, "sharpen value")
 }

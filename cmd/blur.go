@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// blur the image in path
 func blur(path string, degree float64) {
 	img := getImage(path)
 	img = imaging.Blur(img, degree)
@@ -19,9 +20,9 @@ func blur(path string, degree float64) {
 
 // blurCmd represents the blur command
 var blurCmd = &cobra.Command{
-	Use:   "blur",
-	Short: "A brief description of your command",
-	Long:  ``,
+	Use:   "blur image [flags]",
+	Short: "Blur the image",
+	Long:  `Blur the image with the given value of blur (-v)`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var path string = imagePathExists(args)
 		saveImage(path)
@@ -41,5 +42,5 @@ var blurCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(blurCmd)
-	blurCmd.Flags().Float64P("value", "v", 1, "The value of blur")
+	blurCmd.Flags().Float64P("value", "v", 1, "blur value")
 }

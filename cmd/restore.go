@@ -43,9 +43,9 @@ func restoreImage(path string) {
 
 // restoreCmd represents the restore command
 var restoreCmd = &cobra.Command{
-	Use:   "restore",
-	Short: "A brief description of your command",
-	Long:  `restore the image to its original state`,
+	Use:   "restore image",
+	Short: "Restore the image",
+	Long:  `Restore the image with the given path, it will restore the image to the state before the last command`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var path string = imagePathExists(args)
 		restoreImage(path)

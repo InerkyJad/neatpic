@@ -8,6 +8,7 @@ import (
 	"strconv"
 )
 
+// corp the image in path
 func corpImageWidthHeight(path string, height string, width string) {
 	img := getImage(path)
 	heightInt, err := strconv.Atoi(height)
@@ -30,9 +31,9 @@ func corpImageWidthHeight(path string, height string, width string) {
 
 // corpCmd represents the corp command
 var corpCmd = &cobra.Command{
-	Use:   "corp",
-	Short: "A brief description of your command",
-	Long:  `corp is used to crop the image`,
+	Use:   "corp image [flags]",
+	Short: "Corp the image",
+	Long:  `Corp the image with the given value of width (-W) and height (-H)`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var path string = imagePathExists(args)
 		saveImage(path)
@@ -54,6 +55,6 @@ var corpCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(corpCmd)
-	corpCmd.Flags().StringP("width", "W", "", "Width of the image")
-	corpCmd.Flags().StringP("height", "H", "", "Height of the image")
+	corpCmd.Flags().StringP("width", "W", "", "width value")
+	corpCmd.Flags().StringP("height", "H", "", "height value")
 }

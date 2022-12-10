@@ -20,9 +20,9 @@ func invert(path string) {
 
 // invertCmd represents the invert command
 var invertCmd = &cobra.Command{
-	Use:   "invert",
-	Short: "A brief description of your command",
-	Long:  ``,
+	Use:   "invert image",
+	Short: "Invert the image",
+	Long:  `Invert the image`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var path string = imagePathExists(args)
 		saveImage(path)

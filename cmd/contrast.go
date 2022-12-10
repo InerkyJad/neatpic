@@ -20,9 +20,9 @@ func contrast(path string, value float64) {
 
 // contrastCmd represents the contrast command
 var contrastCmd = &cobra.Command{
-	Use:   "contrast",
-	Short: "A brief description of your command",
-	Long:  ``,
+	Use:   "contrast image [flags]",
+	Short: "Change the contrast of the image",
+	Long:  `Change the contrast of the image with the given value (-v) from 100 to -100 and 0 returns the image as it is`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var path string = imagePathExists(args)
 		saveImage(path)
@@ -44,5 +44,5 @@ var contrastCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(contrastCmd)
-	contrastCmd.Flags().Float64P("value", "v", 0, "Contrast percentage (from -100 to 100)")
+	contrastCmd.Flags().Float64P("value", "v", 0, "contrast value")
 }

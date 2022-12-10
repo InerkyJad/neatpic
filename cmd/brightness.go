@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// change image brightness
 func brighten(path string, value float64) {
 	img := getImage(path)
 	img = imaging.AdjustBrightness(img, value)
@@ -19,9 +20,9 @@ func brighten(path string, value float64) {
 
 // brightnessCmd represents the brightness command
 var brightnessCmd = &cobra.Command{
-	Use:   "brightness",
-	Short: "A brief description of your command",
-	Long:  `from 100 to -100 and 0 returns the image as it is`,
+	Use:   "brightness image [flags]",
+	Short: "Change the brightness of the image",
+	Long:  `Change the brightness of the image with the given value (-v) from 100 to -100 and 0 returns the image as it is`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var path string = imagePathExists(args)
 		saveImage(path)
@@ -42,5 +43,5 @@ var brightnessCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(brightnessCmd)
-	brightnessCmd.Flags().Float64P("value", "v", 0, "from 100 to -100 and 0 returns the image as it is")
+	brightnessCmd.Flags().Float64P("value", "v", 0, "brightness value")
 }

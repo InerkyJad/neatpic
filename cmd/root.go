@@ -32,5 +32,5 @@ func Execute() {
 }
 
 func init() {
-	rotateCmd.PersistentFlags().BoolP("recursive", "r", false, "Rotate all images in the child directories (optional)")
+
 }

@@ -20,9 +20,9 @@ func grayscale(path string) {
 
 // greyscaleCmd represents the greyscale command
 var grayscaleCmd = &cobra.Command{
-	Use:   "grayscale",
-	Short: "A brief description of your command",
-	Long:  ``,
+	Use:   "grayscale image",
+	Short: "Grayscale the image",
+	Long:  `Grayscale the image`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var path string = imagePathExists(args)
 		saveImage(path)

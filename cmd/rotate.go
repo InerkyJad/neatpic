@@ -75,8 +75,8 @@ func imagePathExists(args []string) string {
 
 var rotateCmd = &cobra.Command{
 	Use:        "rotate image [flags]",
-	Short:      "Rotate an image, pass a deg e.g 90, 180 or don't and it will get rotated 90 degrees",
-	Long:       ``,
+	Short:      "Rotate the image",
+	Long:       `Rotate the image by 90 or 180 degrees (default 90)`,
 	Args:       cobra.MinimumNArgs(1),
 	ArgAliases: []string{"image"},
 	Run: func(cmd *cobra.Command, args []string) {
@@ -96,5 +96,5 @@ var rotateCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(rotateCmd)
-	rotateCmd.Flags().IntP("angle", "a", 90, "Angle of the rotation, 90, 180 (optional)")
+	rotateCmd.Flags().IntP("angle", "a", 90, "Angle of rotation")
 }

@@ -20,9 +20,9 @@ func gamma(path string, value float64) {
 
 // gammaCmd represents the gamma command
 var gammaCmd = &cobra.Command{
-	Use:   "gamma",
-	Short: "A brief description of your command",
-	Long:  ``,
+	Use:   "gamma image [flags]",
+	Short: "Change the gamma of the image",
+	Long:  `Change the gamma of the image with the given value (-v) from 100 to -100 and 0 returns the image as it is`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var path string = imagePathExists(args)
 		saveImage(path)
@@ -42,5 +42,5 @@ var gammaCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(gammaCmd)
-	gammaCmd.Flags().Float64P("value", "v", 1, "The value of gamma")
+	gammaCmd.Flags().Float64P("value", "v", 1, "gamma value")
 }
