@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// change the sharpness of image in path
 func sharpen(path string, value float64) {
 	img := getImage(path)
 	img = imaging.Sharpen(img, value)

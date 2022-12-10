@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// resize image wile keeping aspect ratio (if only one parameter is passed)
 func resize(path string, width float64, height float64) {
 	img := getImage(path)
 	img = imaging.Resize(img, int(width), int(height), imaging.Lanczos)

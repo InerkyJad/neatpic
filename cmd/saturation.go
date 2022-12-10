@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// change saturation
 func saturation(path string, percentage float64) {
 	img := getImage(path)
 	img = imaging.AdjustSaturation(img, percentage)

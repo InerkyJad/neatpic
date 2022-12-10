@@ -11,6 +11,7 @@ import (
 	"strconv"
 )
 
+// compress/reduce the image size (Not Working)
 func compress(path string, percentage string) error {
 	var img image.Image = getImage(path)
 

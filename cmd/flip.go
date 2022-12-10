@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// flip an image
 func flip(image string, horizontal bool, vertical bool) {
 	if vertical {
 		img := imaging.FlipV(getImage(image))

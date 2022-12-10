@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// image to grayscale
 func grayscale(path string) {
 	img := getImage(path)
 	img = imaging.Grayscale(img)

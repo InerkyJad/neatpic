@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// Change the gamma
 func gamma(path string, value float64) {
 	img := getImage(path)
 	img = imaging.AdjustGamma(img, value)

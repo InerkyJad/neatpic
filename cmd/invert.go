@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// invert the image in path
 func invert(path string) {
 	img := getImage(path)
 	img = imaging.Invert(img)
