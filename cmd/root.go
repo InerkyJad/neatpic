@@ -8,8 +8,9 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "neatpic [command] image [flags]",
-	Short: "NeatPic is a CLI tool to manipulate images",
+	Use:     "neatpic [command] image [flags]",
+	Version: "0.1.0",
+	Short:   "NeatPic is a CLI tool to manipulate images",
 	Long: `
 	/$$   /$$                       /$$     /$$$$$$$  /$$          
 	| $$$ | $$                      | $$    | $$__  $$|__/          
