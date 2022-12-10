@@ -23,6 +23,12 @@ For example, to blur an image, you would run `neatpic blur <image_path> [flags]`
 $ git clone https://github.com/InerkyJad/neatpic.git
 $ cd neatpic
 $ go build
+$ ./neatpic --help
+```
+if you want to generate the `.deb` package for NeatPic and install it, run:
+```bash
+$ fpm -s dir -t deb -n neatpic -v 0.1.0 -C <path_to_dir> . --after-install add_to_path.sh
+$ sudo dpkg -i neatpic_0.1.0_amd64.deb
 ```
 
 
