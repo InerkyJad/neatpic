@@ -1,13 +1,3 @@
-```
-         /$$   /$$                       /$$     /$$$$$$$  /$$          
-        | $$$ | $$                      | $$    | $$__  $$|__/          
-        | $$$$| $$  /$$$$$$   /$$$$$$  /$$$$$$  | $$  \ $$ /$$  /$$$$$$$
-        | $$ $$ $$ /$$__  $$ |____  $$|_  $$_/  | $$$$$$$/| $$ /$$_____/
-        | $$  $$$$| $$$$$$$$  /$$$$$$$  | $$    | $$____/ | $$| $$      
-        | $$\  $$$| $$_____/ /$$__  $$  | $$ /$$| $$      | $$| $$      
-        | $$ \  $$|  $$$$$$$|  $$$$$$$  |  $$$$/| $$      | $$|  $$$$$$$
-        |__/  \__/ \_______/ \_______/   \___/  |__/      |__/ \_______/
-```
 
 # NeatPic
 NeatPic is a CLI tool that allows you to manipulate images using a variety of commands. With NeatPic, you can blur, change the brightness, contrast, gamma, and saturation of an image, as well as flip, grayscale, invert, reduce, resize, restore, rotate, and sharpen it.
