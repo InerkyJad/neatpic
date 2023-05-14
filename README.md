@@ -44,10 +44,6 @@ $ sudo dpkg -i neatpic_0.1.0_amd64.deb
 
 
 
-# Installation
-NeatPic is available to download and install, but not yet available on any package managers.
-this will stay the same until the first stable release of NeatPic.
-
 
 # License
 NeatPic is released under the BSD-3-Clause License. See the [LICENSE](LICENSE) file for more details.
